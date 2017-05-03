@@ -1,10 +1,5 @@
 # coding:utf-8
 import jieba
-import sys
-
-
-# reload(sys)
-# sys.setdefaultencoding("utf-8")
 
 
 def split_en_ch(filename):
@@ -20,6 +15,16 @@ def split_en_ch(filename):
             en.append(line.split('\t')[0])
             ch.append(line.split('\t')[1])
     return en, ch
+
+
+def split_punc_of_en(en, one_word_index):
+    for i in range(len(one_word_index)):
+        line = en[i]
+        end = line[-1]
+        line = line[:-1]
+        line += " "
+        line += end
+        print(line)
 
 
 def get_key_words(en):  # 返回关键词和对应的行号，跳过第一行，下标从0开始
@@ -66,9 +71,10 @@ def word_seg(ch, ch_seg_filename):
             # return ch_seg
 
 
-def construct_keyword_ch(key_words, one_word_index, ch_seg_finename):
+def construct_keyword_ch(key_words, one_word_index, ch_seg_finename, stopwords_filename):  # 这里有一步过滤停用词
     ch_seg = []
-    ch_seg_of_key_words = []
+    ch_seg_of_key_words = []  # ch_seg_of_key_words和ch_seg的区别是前者过滤了那些含有多个关键词的行
+    ch_seg_of_key_words_no_stopwords = []
     with open(ch_seg_finename, 'r') as f:
         for line in f:
             line = line.strip()
@@ -77,10 +83,26 @@ def construct_keyword_ch(key_words, one_word_index, ch_seg_finename):
             # print (line)
             ch_seg.append(line)
     # print (ch_seg)
+
+    stopwords = []  # 停用词
+    # with open(stopwords_filename, 'r') as f:
+    #     for line in f:
+    #         line = line.strip()
+    #         stopwords.append(line)
+    #
+    # print(stopwords)
+
     for i in range(len(one_word_index)):
         ch_seg_of_key_words.append(ch_seg[i])
-    # print((ch_seg_of_key_words))
-    return ch_seg_of_key_words
+
+    for i in range(len(ch_seg_of_key_words)):
+        ch_seg_of_key_words_no_stopwords.append([])
+        for j in range(len(ch_seg_of_key_words[i])):
+            if ch_seg_of_key_words[i][j] not in stopwords:
+                ch_seg_of_key_words_no_stopwords[i].append(ch_seg_of_key_words[i][j])
+
+    # print(ch_seg_of_key_words_no_stopwords)
+    return ch_seg_of_key_words_no_stopwords
 
 
 def word2index(key_words, vocab_filename):
@@ -117,6 +139,36 @@ def ch_seg2index(ch_seg, vocab_filename):
             ch_seg[i][j] = index
     # print(ch_seg)
     return ch_seg
+
+
+def get_align2(key_words_index, ch_seg_of_key_words_index, prob_filename):  # 从中文向英文方向找对齐
+    align = []
+    prob = {}
+    with open(prob_filename, 'r') as f:
+        for line in f:
+            line = line.strip()
+            line = line.split(" ")
+            if line[0] in prob:
+                prob[line[0]][line[1]] = float(line[2])
+            else:
+                prob[line[0]] = {}
+                prob[line[0]][line[1]] = float(line[2])
+    for i in range(len(key_words_index)):
+        tmp = 0
+        tar = '-1'
+        if key_words_index[i] == '-1':
+            # print('-1'+' '+'-1')
+            align.append('-1' + ' ' + '-1')
+        else:
+            for j in range(len(ch_seg_of_key_words_index[i])):
+                if ch_seg_of_key_words_index[i][j] != '-1':
+                    if ch_seg_of_key_words_index[i][j] in prob:
+                        if key_words_index[i] in prob[ch_seg_of_key_words_index[i][j]]:
+                            if prob[ch_seg_of_key_words_index[i][j]][key_words_index[i]]>tmp:
+                                tmp = prob[ch_seg_of_key_words_index[i][j]][key_words_index[i]]
+                                tar = ch_seg_of_key_words_index[i][j]
+            align.append(key_words_index[i]+' '+tar)
+    return align
 
 
 def get_align(key_words_index, ch_seg_of_key_words_index, prob_filename):
@@ -184,13 +236,16 @@ def main():
     key_words, one_word_index = get_key_words(en)
     word_seg(ch, "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt")
     ch_seg_of_key_words = construct_keyword_ch(key_words, one_word_index,
-                                               "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt")
+                                               "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt",
+                                               "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/stopwords.txt")
     # print(key_words)
     # print(len(ch_seg_of_key_words))
-    key_words_index = word2index(key_words, "/Users/wangqinglong/Windows/merged.en.vcb")
-    ch_seg_of_key_words_index = ch_seg2index(ch_seg_of_key_words, "/Users/wangqinglong/Windows/merged.ch.vcb")
-    align = get_align(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/t2s64.thmm.5")
-    align2word(align, "/Users/wangqinglong/Windows/merged.en.vcb", "/Users/wangqinglong/Windows/merged.ch.vcb")
+    key_words_index = word2index(key_words, "/Users/wangqinglong/Windows/corpus.en.vcb")
+    ch_seg_of_key_words_index = ch_seg2index(ch_seg_of_key_words, "/Users/wangqinglong/Windows/corpus.ch.vcb")
+    # align = get_align(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/t2s64.t1.5")
+    align = get_align2(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/s2t64.t1.5")
+    align2word(align, "/Users/wangqinglong/Windows/corpus.en.vcb", "/Users/wangqinglong/Windows/corpus.ch.vcb")
+    # split_punc_of_en(en, one_word_index)
 
 
 if __name__ == '__main__':
