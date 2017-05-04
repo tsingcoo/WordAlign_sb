@@ -53,9 +53,10 @@ def get_key_words(en):  # 返回关键词和对应的行号，跳过第一行，
                     one_word_index.append(one_word_line)
         one_word_line += 1  # 记录行标
 
-    # print(key_words)
+    print(key_words)
+    print(key_words[2797])
     # print(len(key_words))
-    # print(one_word_index)
+    print(one_word_index[2797])
     # print(len(one_word_index))
     return key_words, one_word_index
 
@@ -93,7 +94,8 @@ def construct_keyword_ch(key_words, one_word_index, ch_seg_finename, stopwords_f
     # print(stopwords)
 
     for i in range(len(one_word_index)):
-        ch_seg_of_key_words.append(ch_seg[i])
+        # ch_seg_of_key_words.append(ch_seg[i])#这样写是错误的
+        ch_seg_of_key_words.append(ch_seg[one_word_index[i]])
 
     for i in range(len(ch_seg_of_key_words)):
         ch_seg_of_key_words_no_stopwords.append([])
@@ -137,7 +139,7 @@ def ch_seg2index(ch_seg, vocab_filename):
             else:
                 index = '-1'
             ch_seg[i][j] = index
-    # print(ch_seg)
+    # print(ch_seg[2797])
     return ch_seg
 
 
@@ -164,10 +166,18 @@ def get_align2(key_words_index, ch_seg_of_key_words_index, prob_filename):  # �
                 if ch_seg_of_key_words_index[i][j] != '-1':
                     if ch_seg_of_key_words_index[i][j] in prob:
                         if key_words_index[i] in prob[ch_seg_of_key_words_index[i][j]]:
-                            if prob[ch_seg_of_key_words_index[i][j]][key_words_index[i]]>tmp:
+                            if prob[ch_seg_of_key_words_index[i][j]][key_words_index[i]] > tmp:
                                 tmp = prob[ch_seg_of_key_words_index[i][j]][key_words_index[i]]
                                 tar = ch_seg_of_key_words_index[i][j]
-            align.append(key_words_index[i]+' '+tar)
+            align.append(key_words_index[i] + ' ' + tar)
+    # print(ch_seg_of_key_words_index[2797])
+    # print(ch_seg_of_key_words_index[2797][4])
+    print(key_words_index[2128])
+    # print(key_words_index)
+    for i in range(len(key_words_index)):
+        if key_words_index[i] == '3332':
+            print(i)
+    # print(prob[ch_seg_of_key_words_index[2797][4]][key_words_index[2797]])
     return align
 
 
@@ -204,7 +214,7 @@ def get_align(key_words_index, ch_seg_of_key_words_index, prob_filename):
     return align
 
 
-def align2word(align, vocab_en_filename, vocab_ch_filename):
+def align2word(key_words_index, one_word_index, align, vocab_en_filename, vocab_ch_filename):
     vocab_en = {}
     vocab_ch = {}
     with open(vocab_en_filename, 'r') as f:
@@ -228,7 +238,7 @@ def align2word(align, vocab_en_filename, vocab_ch_filename):
             word_ch = "-1"
         else:
             word_ch = vocab_ch[align_line[1]]
-        print(word_en + " " + word_ch)
+        print(str(one_word_index[i]) + " " + word_en + " " + word_ch)
 
 
 def main():
@@ -244,7 +254,8 @@ def main():
     ch_seg_of_key_words_index = ch_seg2index(ch_seg_of_key_words, "/Users/wangqinglong/Windows/corpus.ch.vcb")
     # align = get_align(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/t2s64.t1.5")
     align = get_align2(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/s2t64.t1.5")
-    align2word(align, "/Users/wangqinglong/Windows/corpus.en.vcb", "/Users/wangqinglong/Windows/corpus.ch.vcb")
+    align2word(key_words_index,one_word_index, align, "/Users/wangqinglong/Windows/corpus.en.vcb",
+               "/Users/wangqinglong/Windows/corpus.ch.vcb")
     # split_punc_of_en(en, one_word_index)
 
 
