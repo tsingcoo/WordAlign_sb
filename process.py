@@ -1,6 +1,11 @@
 # coding:utf-8
 import jieba
 
+import sys
+default_encoding = 'utf-8'
+# if sys.getdefaultencoding() != default_encoding:
+#     reload(sys)
+#     sys.setdefaultencoding(default_encoding)
 
 def split_en_ch(filename):
     # i = 0
@@ -242,20 +247,20 @@ def align2word(key_words_index, one_word_index, align, vocab_en_filename, vocab_
 
 
 def main():
-    en, ch = split_en_ch("/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples.txt")
+    en, ch = split_en_ch("/Users/wangql/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples.txt")
     key_words, one_word_index = get_key_words(en)
-    word_seg(ch, "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt")
+    word_seg(ch, "/Users/wangql/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt")
     ch_seg_of_key_words = construct_keyword_ch(key_words, one_word_index,
-                                               "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt",
-                                               "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/stopwords.txt")
+                                               "/Users/wangql/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt",
+                                               "/Users/wangql/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/stopwords.txt")
     # print(key_words)
     # print(len(ch_seg_of_key_words))
-    key_words_index = word2index(key_words, "/Users/wangqinglong/Windows/corpus.en.vcb")
-    ch_seg_of_key_words_index = ch_seg2index(ch_seg_of_key_words, "/Users/wangqinglong/Windows/corpus.ch.vcb")
-    # align = get_align(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/t2s64.t1.5")
-    align = get_align2(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/s2t64.t1.5")
-    align2word(key_words_index,one_word_index, align, "/Users/wangqinglong/Windows/corpus.en.vcb",
-               "/Users/wangqinglong/Windows/corpus.ch.vcb")
+    key_words_index = word2index(key_words, "/Users/wangql/windows/119/800w/LDC.en.vcb")
+    ch_seg_of_key_words_index = ch_seg2index(ch_seg_of_key_words, "/Users/wangql/windows/119/800w/LDC.ch.vcb")
+    # align = get_align(key_words_index, ch_seg_of_key_words_index, "/Users/wangql/Windows/t2s64.t1.5")
+    align = get_align2(key_words_index, ch_seg_of_key_words_index, "/Users/wangql/windows/119/800w/s2t64.t1.5")
+    align2word(key_words_index, one_word_index, align, "/Users/wangql/windows/119/800w/LDC.en.vcb",
+               "/Users/wangql/windows/119/800w/LDC.ch.vcb")
     # split_punc_of_en(en, one_word_index)
 
 
