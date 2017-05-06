@@ -1,17 +1,27 @@
-import langid
+# import langid
+from langid.langid import LanguageIdentifier, model
+
+identifier = LanguageIdentifier.from_modelstring(model, norm_probs=True)
+identifier.set_languages(['zh','en'])
+
 
 def langdeid(input_f, output_f):
     indexs = []
     index = 0  # 记录行下标
     with open(input_f, 'r') as f:
         for line in f.readlines():
+            line = line.split(" ")
+            new_line = ""
+            for word in line:
+                new_line += word
             try:
-                lang = langid.classify(line)[0]
+                lang = identifier.classify(new_line)[0]
+                prec = identifier.classify(new_line)[1]
                 if lang != 'zh':
-                    print(str(index) + " ", lang)
+                    print(str(index) + " ", lang, prec, " " + new_line)
                     indexs.append(index)
             except Exception as e:
-                print(str(index) + " ", e)
+                print(str(index) + " ", e, " " + new_line)
                 indexs.append(index)
 
             index = index + 1
