@@ -2,7 +2,7 @@
 from langid.langid import LanguageIdentifier, model
 
 identifier = LanguageIdentifier.from_modelstring(model, norm_probs=True)
-identifier.set_languages(['zh','en'])
+identifier.set_languages(['zh', 'en'])  # 设置少量几种需要检测的语言，可以加快识别速度
 
 
 def langdeid(input_f, output_f):
@@ -29,7 +29,7 @@ def langdeid(input_f, output_f):
 
 
 def main():
-    indexs = langdeid("/Users/wangqinglong/Windows/800/LDC.ch", "/Users/wangqinglong/Windows/800/LDC.new.ch")
+    indexs = langdeid("/Users/wangqinglong/Windows/800/LDC.nosemi.ch", "/Users/wangqinglong/Windows/800/LDC.new.ch")
     print(len(indexs))
     print(indexs)
 
