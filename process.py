@@ -10,6 +10,14 @@ default_encoding = 'utf-8'
 #     reload(sys)
 #     sys.setdefaultencoding(default_encoding)
 
+def read_ch(filename):
+    ch = []
+    with open(filename, 'r', encoding='utf-8') as f:
+        for line in f.readlines():
+            ch.append(line)
+    return ch
+
+
 def split_en_ch(filename):
     # i = 0
     en = []
@@ -17,9 +25,6 @@ def split_en_ch(filename):
     with open(filename, 'r') as f:
         line = f.readline()  # 跳过第一行
         for line in f.readlines():
-            # i += 1
-            # if i < 14632:
-            #     print(line.split('\t')[1])
             en.append(line.split('\t')[0])
             ch.append(line.split('\t')[1])
     return en, ch
@@ -63,11 +68,10 @@ def get_key_words(en):  # 返回关键词和对应的行号，跳过第一行，
 # 对中文进行分词
 def word_seg(ch, ch_seg_filename):
     ch_seg = []
-    with open(ch_seg_filename, "w") as f:
+    with open(ch_seg_filename, "w", encoding='utf-8') as f:
         for line in ch:
             seg_list = list(jieba.cut(line))
             f.writelines(" ".join(seg_list))
-
 
 
 def construct_keyword_ch(key_words, one_word_index, ch_seg_finename, stopwords_filename):  # 这里有一步过滤停用词
@@ -77,9 +81,7 @@ def construct_keyword_ch(key_words, one_word_index, ch_seg_finename, stopwords_f
     with open(ch_seg_finename, 'r') as f:
         for line in f:
             line = line.strip()
-            # print (line)
             line = line.split(" ")
-            # print (line)
             ch_seg.append(line)
     # print (ch_seg)
 
@@ -125,7 +127,7 @@ def word2index(key_words, vocab_filename):
 
 def ch_seg2index(ch_seg, vocab_filename):
     vocab = {}
-    with open(vocab_filename, 'r') as f:
+    with open(vocab_filename, 'r', encoding='utf-8') as f:
         for line in f:
             line = line.strip()
             line = line.split(" ")
@@ -168,14 +170,9 @@ def get_align2(key_words_index, ch_seg_of_key_words_index, prob_filename):  # �
                                 tmp = prob[ch_seg_of_key_words_index[i][j]][key_words_index[i]]
                                 tar = ch_seg_of_key_words_index[i][j]
             align.append(key_words_index[i] + ' ' + tar)
-    # print(ch_seg_of_key_words_index[2797])
-    # print(ch_seg_of_key_words_index[2797][4])
-    print(key_words_index[2128])
-    # print(key_words_index)
     for i in range(len(key_words_index)):
         if key_words_index[i] == '3332':
             print(i)
-    # print(prob[ch_seg_of_key_words_index[2797][4]][key_words_index[2797]])
     return align
 
 
@@ -206,9 +203,7 @@ def get_align(key_words_index, ch_seg_of_key_words_index, prob_filename):
                             if prob[key_words_index[i]][ch_seg_of_key_words_index[i][j]] > tmp:
                                 tmp = prob[key_words_index[i]][ch_seg_of_key_words_index[i][j]]
                                 tar = ch_seg_of_key_words_index[i][j]
-            # print(key_words_index[i] + ' '+ tar)
             align.append(key_words_index[i] + ' ' + tar)
-    # print(align)
     return align
 
 
@@ -240,30 +235,32 @@ def align2word(key_words_index, one_word_index, align, vocab_en_filename, vocab_
 
 
 def main():
-    en, ch = split_en_ch("/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples.txt")
-    key_words, one_word_index = get_key_words(en)
+    # en, ch = split_en_ch("/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples.txt")
+    # key_words, one_word_index = get_key_words(en)
+
+    ch = read_ch("/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_zh.txt")
     # 对中文进行分词
-    word_seg(ch, "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt")
+    word_seg(ch, "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_zh_seg.txt")
 
     # 得到提取的关键词对应的中文行
-    ch_seg_of_key_words = construct_keyword_ch(key_words, one_word_index,
-                                               "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt",
-                                               "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/stopwords.txt")
-    # print(key_words)
-    # print(len(ch_seg_of_key_words))
-
-    # 把关键词转换为index
-    key_words_index = word2index(key_words, "/Users/wangqinglong/Windows/800/LDC.final.en.vcb")
-    # 把关键词对应的中文行转化成index
-    ch_seg_of_key_words_index = ch_seg2index(ch_seg_of_key_words,
-                                             "/Users/wangqinglong/Windows/800/LDC.nosemi.final.ch.vcb")
-    # align = get_align(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/t2s64.t1.5")
-
-    # 从中文方向向英文找对齐
-    align = get_align2(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/800/LDC.final.t")
-    align2word(key_words_index, one_word_index, align, "/Users/wangqinglong/Windows/800/LDC.final.en.vcb",
-               "/Users/wangqinglong/Windows/800/LDC.nosemi.final.ch.vcb")
-    # split_punc_of_en(en, one_word_index)
+    # ch_seg_of_key_words = construct_keyword_ch(key_words, one_word_index,
+    #                                            "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt",
+    #                                            "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/stopwords.txt")
+    # # print(key_words)
+    # # print(len(ch_seg_of_key_words))
+    #
+    # # 把关键词转换为index
+    # key_words_index = word2index(key_words, "/Users/wangqinglong/Windows/800/LDC.final.en.vcb")
+    # # 把关键词对应的中文行转化成index
+    # ch_seg_of_key_words_index = ch_seg2index(ch_seg_of_key_words,
+    #                                          "/Users/wangqinglong/Windows/800/LDC.nosemi.final.ch.vcb")
+    # # align = get_align(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/t2s64.t1.5")
+    #
+    # # 从中文方向向英文找对齐
+    # align = get_align2(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/800/LDC.final.t")
+    # align2word(key_words_index, one_word_index, align, "/Users/wangqinglong/Windows/800/LDC.final.en.vcb",
+    #            "/Users/wangqinglong/Windows/800/LDC.nosemi.final.ch.vcb")
+    # # split_punc_of_en(en, one_word_index)
 
 
 if __name__ == '__main__':
