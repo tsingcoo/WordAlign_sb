@@ -235,32 +235,28 @@ def align2word(key_words_index, one_word_index, align, vocab_en_filename, vocab_
 
 
 def main():
-    # en, ch = split_en_ch("/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples.txt")
-    # key_words, one_word_index = get_key_words(en)
+    en, ch = split_en_ch("/root/test/examples_COLLINS.txt")
+    key_words, one_word_index = get_key_words(en)
 
-    ch = read_ch("/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_zh.txt")
+    # ch = read_ch("/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_zh.txt")
     # 对中文进行分词
-    word_seg(ch, "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_zh_seg.txt")
+    word_seg(ch, "/root/test/examples_COLLINS_ch_seg.txt")
 
     # 得到提取的关键词对应的中文行
-    # ch_seg_of_key_words = construct_keyword_ch(key_words, one_word_index,
-    #                                            "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ch_seg.txt",
-    #                                            "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/stopwords.txt")
-    # # print(key_words)
-    # # print(len(ch_seg_of_key_words))
-    #
-    # # 把关键词转换为index
-    # key_words_index = word2index(key_words, "/Users/wangqinglong/Windows/800/LDC.final.en.vcb")
-    # # 把关键词对应的中文行转化成index
-    # ch_seg_of_key_words_index = ch_seg2index(ch_seg_of_key_words,
-    #                                          "/Users/wangqinglong/Windows/800/LDC.nosemi.final.ch.vcb")
-    # # align = get_align(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/t2s64.t1.5")
-    #
-    # # 从中文方向向英文找对齐
-    # align = get_align2(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/800/LDC.final.t")
-    # align2word(key_words_index, one_word_index, align, "/Users/wangqinglong/Windows/800/LDC.final.en.vcb",
-    #            "/Users/wangqinglong/Windows/800/LDC.nosemi.final.ch.vcb")
-    # # split_punc_of_en(en, one_word_index)
+    ch_seg_of_key_words = construct_keyword_ch(key_words, one_word_index, "/root/test/examples_COLLINS_ch_seg.txt", "")
+
+    # 把关键词转换为index
+    key_words_index = word2index(key_words, "/Users/wangqinglong/Windows/800/LDC.final.en.vcb")
+    # 把关键词对应的中文行转化成index
+    ch_seg_of_key_words_index = ch_seg2index(ch_seg_of_key_words,
+                                             "/Users/wangqinglong/Windows/800/LDC.nosemi.final.ch.vcb")
+    # align = get_align(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/t2s64.t1.5")
+
+    # 从中文方向向英文找对齐
+    align = get_align2(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/800/LDC.final.t")
+    align2word(key_words_index, one_word_index, align, "/Users/wangqinglong/Windows/800/LDC.final.en.vcb",
+               "/Users/wangqinglong/Windows/800/LDC.nosemi.final.ch.vcb")
+    # split_punc_of_en(en, one_word_index)
 
 
 if __name__ == '__main__':

@@ -6,14 +6,10 @@ import sys
 default_encoding = 'utf-8'
 
 
-# if sys.getdefaultencoding() != default_encoding:
-#     reload(sys)
-#     sys.setdefaultencoding(default_encoding)
-
 def split_en_ch(filename):
     en = []
     ch = []
-    with open(filename, 'r') as f:
+    with open(filename, 'r', encoding='utf-8') as f:
         line = f.readline()  # 跳过第一行
         for line in f.readlines():
             en.append(line.split('\t')[0])
@@ -40,7 +36,7 @@ def get_one_word_index(en):  # 返回关键词和对应的行号，跳过第一�
 
 
 def print_final_corpus(one_word_index, en, ch, output_f_e, output_f_c):
-    with open(output_f_e, 'w') as f_e, open(output_f_c, 'w') as f_c:
+    with open(output_f_e, 'w', encoding='utf-8') as f_e, open(output_f_c, 'w', encoding='utf-8') as f_c:
         for i in range(len(one_word_index)):
             f_e.writelines(en[one_word_index[i]])
             f_e.writelines('\n')
@@ -49,8 +45,7 @@ def print_final_corpus(one_word_index, en, ch, output_f_e, output_f_c):
 
 
 if __name__ == '__main__':
-    en, ch = split_en_ch("/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples.txt")
+    en, ch = split_en_ch("/root/test/examples_COLLINS.txt")
     one_word_index = get_one_word_index(en)
-    print_final_corpus(one_word_index, en, ch,
-                       "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples.oneword.en",
-                       "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples.oneword.ch")
+    print_final_corpus(one_word_index, en, ch, "/root/test/examples_COLLINS.oneword.en",
+                       "/root/test/examples_COLLINS.oneword.ch")

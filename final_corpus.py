@@ -33,12 +33,12 @@ def getFinalCorpus(indexs, input_f, output_f):
 
 if __name__ == '__main__':
     indexs = combineIndex("",
-                          "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples/examples.oneword.ch.short.index",
-                          "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples/examples.oneword.en.short.index")
+                          "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_zh_seg_nosemi_final_short.index",
+                          "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_en_final_short.index")
 
     getFinalCorpus(indexs,
-                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples/examples.oneword.ch",
-                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples/examples.oneword.final.ch")
+                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_zh_seg_nosemi_final.txt",
+                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ChinaDaily.ch")
     getFinalCorpus(indexs,
-                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples/examples.oneword.en",
-                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples/examples.oneword.final.en")
+                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_en_final.txt",
+                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/ChinaDaily.en")
