@@ -20,5 +20,5 @@ def token_sym(input_f, output_f):
 
 if __name__ == '__main__':
     token_sym(
-        "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples/examples.oneword.final.en",
-        "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/examples/examples.oneword.final.token.en")
+        "/root/test/examples_COLLINS.oneword.notag.en",
+        "/root/test/examples_COLLINS.oneword.notag.token.en")

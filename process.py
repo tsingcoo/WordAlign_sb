@@ -250,7 +250,6 @@ def main():
     # 把关键词对应的中文行转化成index
     ch_seg_of_key_words_index = ch_seg2index(ch_seg_of_key_words,
                                              "/Users/wangqinglong/Windows/800/LDC.nosemi.final.ch.vcb")
-    # align = get_align(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/t2s64.t1.5")
 
     # 从中文方向向英文找对齐
     align = get_align2(key_words_index, ch_seg_of_key_words_index, "/Users/wangqinglong/Windows/800/LDC.final.t")

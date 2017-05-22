@@ -1,7 +1,6 @@
 # coding:utf-8
 import jieba
 
-import sys
 
 default_encoding = 'utf-8'
 

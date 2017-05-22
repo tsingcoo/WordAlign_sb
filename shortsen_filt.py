@@ -1,3 +1,4 @@
+# coding:utf-8
 # 输出长度小于4的句子的index
 def filt(input_f, output_f):
     indexs = []
@@ -17,7 +18,7 @@ def filt(input_f, output_f):
 
 if __name__ == '__main__':
     indexs = filt(
-        "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_zh_seg_nosemi_final.txt",
-        "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/chinaDaily_zh_seg_nosemi_final_short.index")
+        "/root/test/examples_COLLINS.oneword.en",
+        "/root/test/examples_COLLINS.oneword.en.short.index")
     print(len(indexs))
     print(indexs)
