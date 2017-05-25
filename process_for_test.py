@@ -1,7 +1,6 @@
 # coding:utf-8
 import jieba
 
-
 default_encoding = 'utf-8'
 
 
@@ -44,7 +43,9 @@ def print_final_corpus(one_word_index, en, ch, output_f_e, output_f_c):
 
 
 if __name__ == '__main__':
-    en, ch = split_en_ch("/root/test/examples_COLLINS.txt")
+    en, ch = split_en_ch(
+        "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.txt")
     one_word_index = get_one_word_index(en)
-    print_final_corpus(one_word_index, en, ch, "/root/test/examples_COLLINS.oneword.en",
-                       "/root/test/examples_COLLINS.oneword.ch")
+    print_final_corpus(one_word_index, en, ch,
+                       "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.en",
+                       "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.ch")

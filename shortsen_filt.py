@@ -18,7 +18,7 @@ def filt(input_f, output_f):
 
 if __name__ == '__main__':
     indexs = filt(
-        "/root/test/examples_COLLINS.oneword.en",
-        "/root/test/examples_COLLINS.oneword.en.short.index")
+        "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.ch",
+        "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.ch.short.index")
     print(len(indexs))
     print(indexs)

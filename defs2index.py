@@ -1,3 +1,4 @@
+
 def word2index(vcbF_en, inputF, outputF):
     word_index = {}
     with open(vcbF_en, encoding='utf-8') as f1:

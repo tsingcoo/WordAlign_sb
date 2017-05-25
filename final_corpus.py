@@ -33,12 +33,12 @@ def getFinalCorpus(indexs, input_f, output_f):
 
 if __name__ == '__main__':
     indexs = combineIndex("",
-                          "/root/test/examples_COLLINS.oneword.ch.short.index",
-                          "/root/test/examples_COLLINS.oneword.notag.token.en.short.index")
+                          "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.ch.short.index",
+                          "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.notag.token.en.short.index")
 
     getFinalCorpus(indexs,
-                   "/root/test/examples_COLLINS.oneword.ch",
-                   "/root/test/examples_COLLINS.oneword.final.ch")
+                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.ch",
+                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.final.ch")
     getFinalCorpus(indexs,
-                   "/root/test/examples_COLLINS.oneword.notag.token.en",
-                   "/root/test/examples_COLLINS.oneword.notag.token.final.en")
+                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.notag.token.en",
+                   "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.notag.token.final.en")

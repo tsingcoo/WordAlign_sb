@@ -22,5 +22,5 @@ def rm_tag(input_f, output_f):
 
 
 if __name__ == '__main__':
-    rm_tag("/root/test/examples_COLLINS.oneword.en",
-           "/root/test/examples_COLLINS.oneword.notag.en")
+    rm_tag("/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.en",
+           "/Users/wangqinglong/Library/Mobile Documents/com~apple~CloudDocs/Shanbay/collins_fl/examples_collins_fl.oneword.notag.en")
